@@ -1,67 +1,154 @@
-const inquirer = require('inquirer');
-const fs = require('fs');
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const inquirer = require("inquirer"); 
+const createPage = require("./src/template");
+const fs = require("fs")
+let team = []
 
-const generateHTML = ({ name, email, github, linkedin }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <header class="p-5 mb-4 header bg-light">
-    <div class="container">
-      <h1 class="display-4">Hi! My name is ${name}</h1>
-      <p class="lead">I am from ${location}.</p>
-      <h3>Example heading <span class="badge bg-secondary">Contact Me</span></h3>
-      <ul class="list-group">
-        <li class="list-group-item">My GitHub username is ${github}</li>
-        <li class="list-group-item">LinkedIn: ${linkedin}</li>
-      </ul>
-    </div>
-  </header>
-</body>
-</html>`;
 
-inquirer
-  .prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'What is your name?',
-    },
-    {
-      type: 'input',
-      name: 'location',
-      message: 'Where are you from?',
-    },
-    {
-      type: 'input',
-      name: 'hobby',
-      message: 'What is your favorite hobby?',
-    },
-    {
-      type: 'input',
-      name: 'food',
-      message: 'What is your favorite food?',
-    },
-    {
-      type: 'input',
-      name: 'github',
-      message: 'Enter your GitHub Username',
-    },
-    {
-      type: 'input',
-      name: 'linkedin',
-      message: 'Enter your LinkedIn URL.',
-    },
-  ])
-  .then((answers) => {
-    const htmlPageContent = generateHTML(answers);
+const addManager = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the manager's name?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "what is the manager's email?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the manager's ID?"
+        },
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "What is the manager's office number?"
+        }
+    ]) 
+    .then(managerInput => { 
+        const newManager = new Manager(
+            managerInput.name,
+            managerInput.email,
+            managerInput.id,
+            managerInput.officeNumber
+        )
+        team.push(newManager)
+        employeeList();
+    });
+}
 
-    fs.writeFile('index.html', htmlPageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created index.html!')
-    );
-  });
+const addEngineer = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the engineer's name?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "what is the engineer's email?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the engineer's ID?"
+        },
+        {
+            type: "input",
+            name: "github",
+            message: "What is the engineer's Github username?"
+        }
+    ]) 
+    .then(engineerInput => {
+        
+        const newEngineer = new Engineer(
+            engineerInput.name,
+            engineerInput.email,
+            engineerInput.id,
+            engineerInput.github
+        )
+        
+        team.push(newEngineer)
+        employeeList();
+        
+    });
+}
+
+const addIntern = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the intern's name?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "what is the intern's email?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the intern's ID?"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What is the intern's school?"
+        }
+    ]) 
+    .then(internInput => {
+        
+        const newIntern = new Intern(
+            internInput.name,
+            internInput.email,
+            internInput.id,
+            internInput.school
+        )
+        
+        team.push(newIntern)
+        employeeList();
+        
+    });
+}
+
+const employeeList = () => {
+    inquirer
+    .prompt({
+        type: "list",
+        name: "employeeTitle",
+        message: "Which employee whould you like to add?",
+        choices: ["Engineer", "Intern","Complete"]
+    })
+        .then((employeeInput) => {
+            if(employeeInput.employeeTitle === "Engineer") {
+                addEngineer();
+            }
+            if(employeeInput.employeeTitle === "Intern") {
+                addIntern();
+            }
+            if(employeeInput.employeeTitle === "Complete") {
+                newHTML();
+            }
+
+    });
+}
+const newHTML = () => {
+    const pageHTML = createPage(team)
+    console.log(pageHTML)
+    fs.writeFile("./dist/index.html", pageHTML, (err) => {
+        if (err) throw new Error("HTML did not render.", err)
+    });
+}
+
+
+addManager();
