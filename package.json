@@ -1,0 +1,22 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "# Description This application runs through the command line on your terminal and utilizes node.js to create an HTML webpage based on the data entered from the user.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rmontgomery4801/team-profile-generator.git"
+  },
+  "author": "Russell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rmontgomery4801/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/Rmontgomery4801/team-profile-generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
+}
