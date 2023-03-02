@@ -9,3 +9,4 @@ This application runs through the command line on your terminal and utilizes nod
 To run this application, the user must clone the repository onto machine. After cloning the user must install Inquirer by running "npm i inquirer" in the command line. The application can be ran by using "node index.js" from the command line. Then user will need to install Jest by running the command "install i jest". Answer the questions that appear. Once the information is collect an HTML file will be generated.
 
 # Video Demonstration
+https://youtu.be/THhUf60F2Qw
